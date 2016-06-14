@@ -33,8 +33,9 @@ def load(file):
         data = {}
         for i in range(0, len(headers)):
             data[headers[i]] = line[i]
-        data['UnBlendedCost'] = decimal.Decimal(data['UnBlendedCost'])
-        data['BlendedCost'] = decimal.Decimal(data['BlendedCost'])
+        data['UnBlendedCost'] = decimal.Decimal(data.get('UnBlendedCost', 0))
+        data['BlendedCost'] = decimal.Decimal(data.get('BlendedCost', 0))
+        data['Cost'] = decimal.Decimal(data.get('Cost', 0))
         costs.add(data)
     fp.close()
     return costs

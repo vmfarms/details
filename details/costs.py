@@ -52,6 +52,7 @@ class Costs(object):
         self._lineitems = []
         self._blended_cost = 0
         self._unblended_cost = 0
+        self._cost = 0
         self._values = {}
 
     @property
@@ -68,7 +69,7 @@ class Costs(object):
 
     @property
     def cost(self):
-        return self._unblended_cost
+        return self._cost
 
     def add(self, lineitem):
         """
@@ -79,9 +80,11 @@ class Costs(object):
         # will throw the total cost calculation off.  So ignore it.
         if lineitem['ProductName']:
             self._lineitems.append(lineitem)
-            if lineitem['BlendedCost']:
+            if lineitem.get('Cost'):
+                self._cost += lineitem['Cost']
+            if lineitem.get('BlendedCost'):
                 self._blended_cost += lineitem['BlendedCost']
-            if lineitem['UnBlendedCost']:
+            if lineitem.get('UnBlendedCost'):
                 self._unblended_cost += lineitem['UnBlendedCost']
 
     def values(self, column):
